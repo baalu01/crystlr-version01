@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowRight, MonitorSmartphone, Share2, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -26,7 +25,7 @@ export default function Home() {
             <p className="text-xl md:text-2xl font-light text-gray-600 mb-8">
               Share your screen instantly with anyone, anywhere. No downloads, no hassle.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button 
                 onClick={() => setActiveTab('host')}
                 size="lg"
@@ -76,24 +75,35 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Tabs Section */}
+        {/* Tabs Section - Classic Tab Style */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-          <Tabs defaultValue={activeTab} onValueChange={(value) => setActiveTab(value as 'host' | 'join')}>
-            <div className="px-6 pt-6">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="host" className="text-base">Host a Session</TabsTrigger>
-                <TabsTrigger value="join" className="text-base">Join a Session</TabsTrigger>
-              </TabsList>
+          <div className="border-b border-gray-200">
+            <div className="flex space-x-8 px-6 pt-6">
+              <button 
+                onClick={() => setActiveTab('host')}
+                className={`py-3 px-1 border-b-2 font-medium text-base transition-colors ${
+                  activeTab === 'host' 
+                    ? 'border-primary text-primary' 
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Host a Session
+              </button>
+              <button 
+                onClick={() => setActiveTab('join')}
+                className={`py-3 px-1 border-b-2 font-medium text-base transition-colors ${
+                  activeTab === 'join' 
+                    ? 'border-primary text-primary' 
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Join a Session
+              </button>
             </div>
-            <div className="p-6">
-              <TabsContent value="host">
-                <HostSession />
-              </TabsContent>
-              <TabsContent value="join">
-                <JoinSession />
-              </TabsContent>
-            </div>
-          </Tabs>
+          </div>
+          <div className="p-6">
+            {activeTab === 'host' ? <HostSession /> : <JoinSession />}
+          </div>
         </div>
         
         {/* Additional Information */}
