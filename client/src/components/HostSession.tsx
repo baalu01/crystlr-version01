@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { PlayIcon, Copy, Plus, Mail, Link as LinkIcon } from 'lucide-react';
+import { PlayIcon, Copy, Plus, Mail, Link as LinkIcon, Monitor } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +13,7 @@ import StreamControls from '@/components/StreamControls';
 import { useWebRTC } from '@/hooks/useWebRTC';
 import { formatSessionId } from '@/utils/webrtc';
 import { useSession } from '@/hooks/useSession';
+import { useTheme } from '@/lib/ThemeContext';
 
 export default function HostSession() {
   const [isSessionCreated, setIsSessionCreated] = useState(false);
@@ -202,13 +203,16 @@ export default function HostSession() {
     }
   };
 
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <div className="space-y-8">
       {/* Session Creation Card */}
       <Card>
         <CardContent className="p-6">
-          <h2 className="text-lg font-medium text-gray-800 mb-4">Create a Screen Sharing Session</h2>
-          <p className="text-gray-600 mb-6">Share your screen with anyone by creating a session and sharing the unique code.</p>
+          <h2 className="text-lg font-medium text-foreground mb-4">Create a Screen Sharing Session</h2>
+          <p className="text-foreground/70 mb-6">Share your screen with anyone by creating a session and sharing the unique code.</p>
           
           {!isSessionCreated ? (
             <div id="preSessionControls" className="space-y-6">
@@ -217,27 +221,27 @@ export default function HostSession() {
                   <Plus className="h-4 w-4 mr-2" />
                   Create New Session
                 </Button>
-                <div className="text-sm text-gray-500 flex items-center">
+                <div className="text-sm text-foreground/60 flex items-center">
                   <span className="inline-block mr-1">ⓘ</span>
                   Your screen will not be shared until you start streaming
                 </div>
               </div>
               
               {/* Stream Options */}
-              <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                <h3 className="font-medium text-gray-700 mb-3">Sharing Options</h3>
+              <div className={`${isDark ? 'bg-card' : 'bg-gray-50'} p-4 rounded-md border border-border`}>
+                <h3 className="font-medium text-foreground mb-3">Sharing Options</h3>
                 <RadioGroup defaultValue="entireScreen" onValueChange={setShareOption} className="space-y-3">
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="entireScreen" id="entireScreen" />
-                    <Label htmlFor="entireScreen">Entire Screen</Label>
+                    <Label htmlFor="entireScreen" className="text-foreground">Entire Screen</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="applicationWindow" id="applicationWindow" />
-                    <Label htmlFor="applicationWindow">Application Window</Label>
+                    <Label htmlFor="applicationWindow" className="text-foreground">Application Window</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="browserTab" id="browserTab" />
-                    <Label htmlFor="browserTab">Browser Tab</Label>
+                    <Label htmlFor="browserTab" className="text-foreground">Browser Tab</Label>
                   </div>
                 </RadioGroup>
                 
@@ -248,7 +252,7 @@ export default function HostSession() {
                       checked={shareAudio} 
                       onCheckedChange={(checked) => setShareAudio(checked === true)}
                     />
-                    <Label htmlFor="shareAudio">Share system audio</Label>
+                    <Label htmlFor="shareAudio" className="text-foreground">Share system audio</Label>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox 
@@ -256,17 +260,17 @@ export default function HostSession() {
                       checked={optimizeVideo} 
                       onCheckedChange={(checked) => setOptimizeVideo(checked === true)}
                     />
-                    <Label htmlFor="optimizeVideo">Optimize for video quality</Label>
+                    <Label htmlFor="optimizeVideo" className="text-foreground">Optimize for video quality</Label>
                   </div>
                 </div>
               </div>
             </div>
           ) : (
             <div id="sessionCreatedControls" className="space-y-6">
-              <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+              <div className={`${isDark ? 'bg-card' : 'bg-gray-50'} p-4 rounded-md border border-border`}>
                 <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-medium text-gray-700">Session Code</h3>
-                  <Badge variant="outline" className="bg-green-100 text-green-800 hover:bg-green-100">
+                  <h3 className="font-medium text-foreground">Session Code</h3>
+                  <Badge variant="outline" className={`${isDark ? 'bg-green-900/30 text-green-400' : 'bg-green-100 text-green-800'} hover:bg-green-100`}>
                     Active
                   </Badge>
                 </div>
@@ -281,7 +285,7 @@ export default function HostSession() {
                     <Copy className="h-4 w-4" />
                   </Button>
                 </div>
-                <p className="mt-2 text-xs text-gray-500">Share this code with anyone you want to view your screen</p>
+                <p className="mt-2 text-xs text-foreground/60">Share this code with anyone you want to view your screen</p>
               </div>
               
               <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
@@ -295,7 +299,7 @@ export default function HostSession() {
                 </Button>
               </div>
               
-              <div className="border-t border-gray-200 pt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
+              <div className="border-t border-border pt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0">
                 <Button 
                   variant="default" 
                   className="bg-accent hover:bg-green-600 text-white flex items-center justify-center"

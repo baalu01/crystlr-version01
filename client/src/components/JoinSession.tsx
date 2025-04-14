@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
+import { useTheme } from '@/lib/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -164,13 +165,16 @@ export default function JoinSession() {
     }
   };
 
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <div className="space-y-8">
       {!isJoined ? (
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-lg font-medium text-gray-800 mb-4">Join a Screen Sharing Session</h2>
-            <p className="text-gray-600 mb-6">Enter the session code provided by the host to join their screen sharing session.</p>
+            <h2 className="text-lg font-medium text-foreground mb-4">Join a Screen Sharing Session</h2>
+            <p className="text-foreground/70 mb-6">Enter the session code provided by the host to join their screen sharing session.</p>
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
