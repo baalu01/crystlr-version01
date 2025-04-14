@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowRight, MonitorSmartphone, Share2, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import HostSession from '@/components/HostSession';
@@ -11,42 +13,94 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<'host' | 'join'>('host');
 
   return (
-    <div className="bg-gray-50 font-sans min-h-screen flex flex-col">
+    <div className="bg-white font-sans min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Tab Navigation */}
-        <div className="mb-8 border-b border-gray-200">
-          <div className="flex space-x-8">
-            <button 
-              onClick={() => setActiveTab('host')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'host' 
-                  ? 'border-primary text-primary' 
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Host a Session
-            </button>
-            <button 
-              onClick={() => setActiveTab('join')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'join' 
-                  ? 'border-primary text-primary' 
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Join a Session
-            </button>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="mb-6">
+              <span className="gradient-text">Crystal Clear</span> Screen Sharing
+            </h1>
+            <p className="text-xl md:text-2xl font-light text-gray-600 mb-8">
+              Share your screen instantly with anyone, anywhere. No downloads, no hassle.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+              <Button 
+                onClick={() => setActiveTab('host')}
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-white px-8"
+              >
+                Start Sharing
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button 
+                onClick={() => setActiveTab('join')}
+                variant="outline"
+                size="lg"
+                className="border-gray-300 text-gray-700"
+              >
+                Join a Session
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Feature Highlights */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="text-center p-6">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MonitorSmartphone className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-medium text-gray-800 mb-2">Instant Sharing</h3>
+            <p className="text-gray-600">Start a session and share your screen in seconds. No software installation required.</p>
+          </div>
+          
+          <div className="text-center p-6">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Share2 className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-medium text-gray-800 mb-2">Simple Invites</h3>
+            <p className="text-gray-600">Generate a unique code or link that you can share via any messaging platform.</p>
+          </div>
+          
+          <div className="text-center p-6">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Sparkles className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-medium text-gray-800 mb-2">HD Quality</h3>
+            <p className="text-gray-600">Experience high-definition, low-latency screen sharing directly in your browser.</p>
           </div>
         </div>
         
-        {/* Session Content */}
-        {activeTab === 'host' ? <HostSession /> : <JoinSession />}
+        {/* Tabs Section */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+          <Tabs defaultValue={activeTab} onValueChange={(value) => setActiveTab(value as 'host' | 'join')}>
+            <div className="px-6 pt-6">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="host" className="text-base">Host a Session</TabsTrigger>
+                <TabsTrigger value="join" className="text-base">Join a Session</TabsTrigger>
+              </TabsList>
+            </div>
+            <div className="p-6">
+              <TabsContent value="host">
+                <HostSession />
+              </TabsContent>
+              <TabsContent value="join">
+                <JoinSession />
+              </TabsContent>
+            </div>
+          </Tabs>
+        </div>
         
-        {/* Informational Sections */}
-        <InfoSection />
-        <FeatureSection />
+        {/* Additional Information */}
+        <div className="mt-24">
+          <InfoSection />
+          <FeatureSection />
+        </div>
       </main>
       
       <Footer />
