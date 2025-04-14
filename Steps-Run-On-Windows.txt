@@ -1,0 +1,8 @@
+npm install cross-env --save-dev
+
+Update this in line 7 dev:
+
+"dev": "cross-env NODE_ENV=development tsx server/index.ts"
+
+npm run dev or npm start
+to run it on terminal bash or shell
