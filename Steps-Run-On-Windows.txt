@@ -6,3 +6,5 @@ Update this in line 7 dev:
 
 npm run dev or npm start
 to run it on terminal bash or shell
+
+Will add more info later
